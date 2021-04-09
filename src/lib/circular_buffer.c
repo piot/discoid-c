@@ -1,3 +1,7 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Peter Bjorklund. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 #include <clog/clog.h>
 #include <discoid/circular_buffer.h>
 #include <tiny-libc/tiny_libc.h>
@@ -59,11 +63,14 @@ int discoidBufferWrite(DiscoidBuffer* self, const uint8_t* data, size_t sampleCo
 int discoidBufferSkip(DiscoidBuffer* self, size_t octetCount)
 {
     if (octetCount > self->size) {
+        CLOG_SOFT_ERROR("you tried to discard more than is in the discoid buffer. %zu vs %zu", octetCount, self->size)
         return -1;
     }
+
     self->readIndex += octetCount;
     self->readIndex %= self->capacity;
     self->size -= octetCount;
+
     return 0;
 }
 
