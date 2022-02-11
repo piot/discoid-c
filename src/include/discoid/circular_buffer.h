@@ -18,6 +18,7 @@ typedef struct DiscoidBuffer {
 
 void discoidBufferInit(DiscoidBuffer* self, size_t maxSize);
 void discoidBufferDestroy(DiscoidBuffer* self);
+void discoidBufferReset(DiscoidBuffer* self);
 int discoidBufferReadAvailable(const DiscoidBuffer* self);
 int discoidBufferSkip(DiscoidBuffer* self, size_t octetCount);
 int discoidBufferWrite(DiscoidBuffer* self, const uint8_t* data, size_t sampleCountInTarget);

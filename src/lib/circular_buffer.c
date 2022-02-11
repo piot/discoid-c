@@ -6,13 +6,18 @@
 #include <discoid/circular_buffer.h>
 #include <tiny-libc/tiny_libc.h>
 
+void discoidBufferReset(DiscoidBuffer* self)
+{
+    self->writeIndex = 0;
+    self->readIndex = 0;
+    self->size = 0;
+}
+
 void discoidBufferInit(DiscoidBuffer* self, size_t maxSize)
 {
     self->buffer = tc_malloc_type_count(uint8_t, maxSize);
-    self->writeIndex = 0;
-    self->readIndex = 0;
     self->capacity = maxSize;
-    self->size = 0;
+    discoidBufferReset(self);
 }
 
 void discoidBufferDestroy(DiscoidBuffer* self)
