@@ -38,7 +38,7 @@ int discoidBufferWrite(DiscoidBuffer* self, const uint8_t* data, size_t sampleCo
     int availableWriteCount = self->capacity - self->size;
     if (sampleCount > availableWriteCount) {
         CLOG_WARN("discoid buffer. Out of capacity. wanted to write %d but we are at (%zu / %zu)", sampleCount,
-                  self->size, self->capacity);
+                  self->size, self->capacity)
         return -2;
     }
     if (sampleCount == 0) {
