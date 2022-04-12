@@ -8,6 +8,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+struct ImprintAllocator;
+
 typedef struct DiscoidBuffer {
     size_t capacity;
     uint8_t* buffer;
@@ -16,7 +18,7 @@ typedef struct DiscoidBuffer {
     size_t size;
 } DiscoidBuffer;
 
-void discoidBufferInit(DiscoidBuffer* self, size_t maxSize);
+void discoidBufferInit(DiscoidBuffer* self, struct ImprintAllocator* allocator, size_t maxSize);
 void discoidBufferDestroy(DiscoidBuffer* self);
 void discoidBufferReset(DiscoidBuffer* self);
 int discoidBufferReadAvailable(const DiscoidBuffer* self);

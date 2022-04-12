@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 #include <clog/clog.h>
 #include <discoid/circular_buffer.h>
+#include <imprint/allocator.h>
 #include <tiny-libc/tiny_libc.h>
 
 void discoidBufferReset(DiscoidBuffer* self)
@@ -13,16 +14,16 @@ void discoidBufferReset(DiscoidBuffer* self)
     self->size = 0;
 }
 
-void discoidBufferInit(DiscoidBuffer* self, size_t maxSize)
+void discoidBufferInit(DiscoidBuffer* self, struct ImprintAllocator* allocator, size_t maxSize)
 {
-    self->buffer = tc_malloc_type_count(uint8_t, maxSize);
+    self->buffer = IMPRINT_ALLOC_TYPE_COUNT(allocator, uint8_t, maxSize);
     self->capacity = maxSize;
     discoidBufferReset(self);
 }
 
 void discoidBufferDestroy(DiscoidBuffer* self)
 {
-    tc_free(self->buffer);
+    //
 }
 
 int discoidBufferReadAvailable(const DiscoidBuffer* self)
