@@ -21,7 +21,8 @@ typedef struct DiscoidBuffer {
 void discoidBufferInit(DiscoidBuffer* self, struct ImprintAllocator* allocator, size_t maxSize);
 void discoidBufferDestroy(DiscoidBuffer* self);
 void discoidBufferReset(DiscoidBuffer* self);
-int discoidBufferReadAvailable(const DiscoidBuffer* self);
+size_t discoidBufferReadAvailable(const DiscoidBuffer* self);
+size_t discoidBufferWriteAvailable(const DiscoidBuffer* self);
 int discoidBufferSkip(DiscoidBuffer* self, size_t octetCount);
 int discoidBufferWrite(DiscoidBuffer* self, const uint8_t* data, size_t sampleCountInTarget);
 int discoidBufferRead(DiscoidBuffer* self, uint8_t* output, size_t requiredCount);

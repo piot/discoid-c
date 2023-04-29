@@ -26,9 +26,14 @@ void discoidBufferDestroy(DiscoidBuffer* self)
     //
 }
 
-int discoidBufferReadAvailable(const DiscoidBuffer* self)
+size_t discoidBufferReadAvailable(const DiscoidBuffer* self)
 {
     return self->size;
+}
+
+size_t discoidBufferWriteAvailable(const DiscoidBuffer* self)
+{
+    return self->capacity - self->size;
 }
 
 int discoidBufferWrite(DiscoidBuffer* self, const uint8_t* data, size_t sampleCountInTarget)
@@ -38,7 +43,7 @@ int discoidBufferWrite(DiscoidBuffer* self, const uint8_t* data, size_t sampleCo
 
     int availableWriteCount = self->capacity - self->size;
     if (sampleCount > availableWriteCount) {
-        CLOG_WARN("discoid buffer. Out of capacity. wanted to write %d but we are at (%zu / %zu)", sampleCount,
+        CLOG_ERROR("discoid buffer. Out of capacity. wanted to write %d but we are at (%zu / %zu)", sampleCount,
                   self->size, self->capacity)
         return -2;
     }
