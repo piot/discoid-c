@@ -2,8 +2,8 @@
  *  Copyright (c) Peter Bjorklund. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-#ifndef discoid_circular_buffer_h
-#define discoid_circular_buffer_h
+#ifndef DISCOID_BUFFER_H
+#define DISCOID_BUFFER_H
 
 #include <stdint.h>
 #include <stdlib.h>
