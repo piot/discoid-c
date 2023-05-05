@@ -127,7 +127,6 @@ int discoidBufferPeek(const DiscoidBuffer* self, size_t readIndex, uint8_t* targ
         firstRun = availableFirstRun;
         secondRun = readCount - availableFirstRun;
     }
-    // CLOG_INFO("peeking at readIndex %zu. First run:%d second:%d", readIndex, firstRun, secondRun);
 
     tc_memcpy_type(uint8_t, target, self->buffer + readIndex, firstRun);
     if (secondRun > 0U) {
