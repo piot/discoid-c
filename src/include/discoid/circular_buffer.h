@@ -19,7 +19,6 @@ typedef struct DiscoidBuffer {
 } DiscoidBuffer;
 
 void discoidBufferInit(DiscoidBuffer* self, struct ImprintAllocator* allocator, size_t maxSize);
-void discoidBufferDestroy(DiscoidBuffer* self);
 void discoidBufferReset(DiscoidBuffer* self);
 size_t discoidBufferReadAvailable(const DiscoidBuffer* self);
 size_t discoidBufferWriteAvailable(const DiscoidBuffer* self);
