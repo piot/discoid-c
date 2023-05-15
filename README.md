@@ -2,4 +2,4 @@
 
 > Discoid: shaped like a disc
 
-Circular Buffer in C.
+[Circular Buffer](https://en.wikipedia.org/wiki/Circular_buffer) written in C.
