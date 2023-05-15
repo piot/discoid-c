@@ -20,13 +20,14 @@ endif()
 
 set(deps ../deps/)
 
-include_directories(${deps}tiny-libc/src/include)
-include_directories(${deps}discoid-c/src/include)
-include_directories(${deps}clog/src/include)
+include_directories(${deps}piot/tiny-libc/src/include)
+include_directories(${deps}piot/imprint/src/include)
+include_directories(${deps}piot/clog/src/include)
 include_directories(include)
 
 file(GLOB_RECURSE deps_src FOLLOW_SYMLINKS
         "${deps}*/src/lib/*.c"
+        "${deps}*/*/src/platform/posix/*.c"
         )
 
 file(GLOB_RECURSE lib_src FOLLOW_SYMLINKS
