@@ -8,7 +8,7 @@
 
 /// Clear the buffer
 /// The buffer is cleared, but the capacity remains
-/// @param self
+/// @param self discoid buffer
 void discoidBufferReset(DiscoidBuffer* self)
 {
     self->writeIndex = 0U;
@@ -17,7 +17,7 @@ void discoidBufferReset(DiscoidBuffer* self)
 }
 
 /// initialize circular DiscoidBuffer
-/// @param self
+/// @param self discoid buffer
 /// @param allocator used to allocate memory for the buffer
 /// @param maxSize the maximum capacity of the buffer
 void discoidBufferInit(DiscoidBuffer* self, struct ImprintAllocator* allocator, size_t maxSize)
@@ -28,7 +28,7 @@ void discoidBufferInit(DiscoidBuffer* self, struct ImprintAllocator* allocator, 
 }
 
 /// The number of octets available to read
-/// @param self
+/// @param self discoid buffer
 /// @return octet count that can be read
 size_t discoidBufferReadAvailable(const DiscoidBuffer* self)
 {
@@ -36,7 +36,7 @@ size_t discoidBufferReadAvailable(const DiscoidBuffer* self)
 }
 
 /// The maximum number of octets that can be written
-/// @param self
+/// @param self discoid buffer
 /// @return octet count that can be written
 size_t discoidBufferWriteAvailable(const DiscoidBuffer* self)
 {
@@ -44,28 +44,28 @@ size_t discoidBufferWriteAvailable(const DiscoidBuffer* self)
 }
 
 /// Write octets to the circular buffer
-/// @param self
-/// @param data
-/// @param dataOctetCount
+/// @param self discoid buffer
+/// @param data octets to add
+/// @param dataOctetCount number of octets in data param
 /// @return negative on error
 int discoidBufferWrite(DiscoidBuffer* self, const uint8_t* data, size_t dataOctetCount)
 {
     const uint8_t* source = data;
-    int sampleCount = dataOctetCount;
+    size_t sampleCount = dataOctetCount;
 
-    int availableWriteCount = self->capacity - self->size;
+    size_t availableWriteCount = (size_t)  (self->capacity - self->size);
     if (sampleCount > availableWriteCount) {
-        CLOG_ERROR("discoid buffer. Out of capacity. wanted to write %d but we are at (%zu / %zu)", sampleCount,
+        CLOG_ERROR("discoid buffer. Out of capacity. wanted to write %zu but we are at (%zu / %zu)", sampleCount,
                    self->size, self->capacity)
-        return -2;
+        //return -2;
     }
 
     if (sampleCount == 0) {
         return 0;
     }
 
-    int firstAvailable = self->capacity - self->writeIndex;
-    int firstRun = sampleCount;
+    size_t firstAvailable = (size_t) (self->capacity - self->writeIndex);
+    size_t firstRun = sampleCount;
     if (firstRun > firstAvailable) {
         firstRun = firstAvailable;
     }
@@ -89,8 +89,8 @@ int discoidBufferWrite(DiscoidBuffer* self, const uint8_t* data, size_t dataOcte
 }
 
 /// Skips octet count instead of reading
-/// @param self
-/// @param octetCount
+/// @param self discoid buffer
+/// @param octetCount number of octets to skip
 /// @return negative on error
 int discoidBufferSkip(DiscoidBuffer* self, size_t octetCount)
 {
@@ -109,10 +109,10 @@ int discoidBufferSkip(DiscoidBuffer* self, size_t octetCount)
 /// Peeks into the raw circular buffer
 /// The data is not removed from the buffer and is still available on next discoidBufferRead().
 /// Use it carefully since value of the octets that has not been written previously are undefined.
-/// @param self
-/// @param readIndex
-/// @param target
-/// @param readCount
+/// @param self discoid buffer
+/// @param readIndex index to peek
+/// @param target buffer to copy result to
+/// @param readCount number of octets to read
 /// @return the number of octets for the second run
 int discoidBufferPeek(const DiscoidBuffer* self, size_t readIndex, uint8_t* target, size_t readCount)
 {
@@ -133,13 +133,13 @@ int discoidBufferPeek(const DiscoidBuffer* self, size_t readIndex, uint8_t* targ
         tc_memcpy_type(uint8_t, target + firstRun, self->buffer, secondRun);
     }
 
-    return secondRun;
+    return (int)secondRun;
 }
 
 /// Read octets from the buffer
-/// @param self
-/// @param output
-/// @param octetCountToRead
+/// @param self discoid buffer
+/// @param output target buffer
+/// @param octetCountToRead number of octetes to read
 /// @return negative on error
 int discoidBufferRead(DiscoidBuffer* self, uint8_t* output, size_t octetCountToRead)
 {
@@ -151,7 +151,7 @@ int discoidBufferRead(DiscoidBuffer* self, uint8_t* output, size_t octetCountToR
     self->size -= octetCountToRead;
 
     if (secondRun > 0) {
-        self->readIndex = secondRun;
+        self->readIndex = (size_t) secondRun;
     } else {
         self->readIndex += octetCountToRead;
     }
